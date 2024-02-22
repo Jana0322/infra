@@ -1,6 +1,6 @@
 variable "region" {
   description = "region where EC2 instance will be creted"
-  type = string  
+  type = string
 }
 
 variable "instance_name" {
@@ -10,17 +10,22 @@ variable "instance_name" {
 
 variable "ami_id" {
   description = "ami id for the instance"
-  type = string  
+  type = string
 }
 
 variable "instance_type" {
   description = "instance type of instance"
-  type = string  
+  type = string
 }
 
 variable "key_name" {
  type = string
 }
+
+variable "subnet_ids" {
+ type = string
+}
+
 
 /*
 variable "s3_bucket"{
