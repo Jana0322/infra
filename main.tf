@@ -6,12 +6,12 @@ terraform {
     }
   }
 
-  # #adding s3 bucket for remote state storage
-  # backend "s3"{
-  #   bucket = "test-tf-statefiles-bucket"
-  #   key = "terraform.tfstate"
-  #   region = "ap-south-1"
-  # }
+  #adding s3 bucket for remote state storage
+  backend "s3"{
+    bucket = "test-tf-statefiles-bucket"
+    key = "terraform.tfstate"
+    region = "ap-south-1"
+  }
 }
 
 provider "aws" {
@@ -38,7 +38,7 @@ module "rds" {
   region = "ap-south-1"
   final_snapshot_identifier = "test-db"
   identifier = "test-db"
-  username = "mysql"
+  username = "admin"
   password = "test12345678"
   instance_class = "db.t3.small"
 }
@@ -46,13 +46,14 @@ module "rds" {
 module "ec2_instance" {
   source = "./modules/ec2"
   instance_name = "test-server"
-  key_name = "test-key_name"
-  ami_id = "AL2_x86_64"
+  key_name = "test"
+  subnet_ids = module.vpc.public1_subnet_id
+  ami_id = "ami-0449c34f967dbf18a"
   region = "ap-south-1"
-  instance_type = "t2.micro"
+  instance_type = "t3.xlarge"
 }
 
-module "alb" {  
+module "alb" {
   source = "./modules/ALB"
   vpc_id = module.vpc.vpc_id
   public1_subnet = module.vpc.public1_subnet_id
